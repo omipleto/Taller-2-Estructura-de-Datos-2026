@@ -15,7 +15,7 @@ public:
 class Trie {
 private:
     TrieNode* root;
-
+    int nodeCount;
     void clearNode(TrieNode* node);
 
 public:
@@ -26,4 +26,5 @@ public:
     std::vector<int> search(const std::string& prefix);
     void remove(const std::string& word, int songId);
     bool isEmpty();
+    void clear();
 };
