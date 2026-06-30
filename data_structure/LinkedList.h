@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <stdexcept>
 
+
 template<typename T>
 class Node {
 public:

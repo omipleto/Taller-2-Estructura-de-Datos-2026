@@ -4,7 +4,7 @@
 
 class TrieNode {
 public:
-    TrieNode* children[256]; 
+    TrieNode* children[256];
     bool isEndOfWord;
     int songId;
 
@@ -16,7 +16,9 @@ class Trie {
 private:
     TrieNode* root;
     int nodeCount;
+
     void clearNode(TrieNode* node);
+    void collectWords(TrieNode* node, std::vector<int>& results);
 
 public:
     Trie();
@@ -25,6 +27,6 @@ public:
     void insert(const std::string& word, int songId);
     std::vector<int> search(const std::string& prefix);
     void remove(const std::string& word, int songId);
-    bool isEmpty();
+    bool isEmpty() const;
     void clear();
 };

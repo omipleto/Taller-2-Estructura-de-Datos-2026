@@ -1,5 +1,5 @@
 #pragma once
-#include "../data_structures/LinkedList.h"
+#include "../data_structure/LinkedList.h"
 #include "Song.h"
 #include <string>
 
