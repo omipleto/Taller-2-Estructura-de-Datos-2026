@@ -12,4 +12,4 @@ int main() {
     player.run();
     
     return 0;
-}
+};

@@ -4,8 +4,8 @@
 CPP      = g++.exe -D__DEBUG__
 CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = core/FileManager.o core/main.o core/Player.o data_structure/AVLTree.o data_structure/LinkedList.o data_structure/TrieNode.o models/Config.o models/Song.o data_structure/MaxHeap.o
-LINKOBJ  = core/FileManager.o core/main.o core/Player.o data_structure/AVLTree.o data_structure/LinkedList.o data_structure/TrieNode.o models/Config.o models/Song.o data_structure/MaxHeap.o
+OBJ      = core/FileManager.o core/main.o core/Player.o data_structure/AVLTree.o data_structure/LinkedList.o data_structure/TrieNode.o models/Config.o models/Song.o data_structure/MaxHeap.o core/Ranking.o
+LINKOBJ  = core/FileManager.o core/main.o core/Player.o data_structure/AVLTree.o data_structure/LinkedList.o data_structure/TrieNode.o models/Config.o models/Song.o data_structure/MaxHeap.o core/Ranking.o
 LIBS     = -L"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib" -L"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/lib" -static-libgcc -g3
 INCS     = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include"
 CXXINCS  = -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"C:/Program Files (x86)/Embarcadero/Dev-Cpp/TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/c++"
@@ -50,3 +50,6 @@ models/Song.o: models/Song.cpp
 
 data_structure/MaxHeap.o: data_structure/MaxHeap.cpp
 	$(CPP) -c data_structure/MaxHeap.cpp -o data_structure/MaxHeap.o $(CXXFLAGS)
+
+core/Ranking.o: core/Ranking.cpp
+	$(CPP) -c core/Ranking.cpp -o core/Ranking.o $(CXXFLAGS)
