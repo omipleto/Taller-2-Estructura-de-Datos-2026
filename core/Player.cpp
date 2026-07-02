@@ -1079,4 +1079,137 @@ string Player::getStatusPrefix() const {
     return prefix;
 }
 
+void Player::rebuildTrie() {
+    songTrie.clear();
+    for(int i = 0; i<allSongs.getSize(); i++){
+        const Song& song = allSongs.get(i);
+        // insertar por titulo
+        songTrie.insert(song.getTitle(), song.getId());
+
+        // insertar por artista
+        songTrie.insert(song.getArtist(), song.getId());
+    }
+    
+}
+
+void Player::searchSongs() {
+    if (allSongs.isEmpty()) {
+        cout << "\nNo hay canciones registradas.\n";
+        cout << "Presione Enter para continuar...";
+        cin.get();
+        return;
+    }
+
+    string searchText;
+    cout << "\nBúsqueda de canciones\n";
+    cout << "Buscar canciones que contengan: ";
+    getline(cin, searchText);
+
+    if (searchText.empty()) {
+        return;
+    }
+
+    // Buscar en el Trie
+    std::vector<int> results = songTrie.search(searchText);
+
+    if (results.empty()) {
+        cout << "\nNo se encontraron canciones que contengan \"" << searchText << "\"\n";
+        cout << "Presione Enter para continuar...";
+        cin.get();
+        return;
+    }
+
+    // Mostrar resultados en un submenú
+    bool inSubmenu = true;
+    string option;
+
+    while (inSubmenu) {
+        clearScreen();
+
+        cout << "Búsqueda de canciones\n";
+        cout << "Canciones que contienen \"" << searchText << "\":\n\n";
+
+        // Mostrar canciones encontradas
+        for (size_t i = 0; i < results.size(); i++) {
+            Song song = getSongById(results[i]);
+            if (song.isValid()) {
+                cout << (i + 1) << ". " << song.getTitle() << " - " << song.getArtist() << "\n";
+            }
+        }
+
+        cout << "\nOpciones: ";
+        cout << "R<num> - Reproducir canción seleccionada ";
+        cout << "A<num> - Agregar canción seleccionada al final ";
+        cout << "F - Repetir búsqueda con un texto diferente ";
+        cout << "V - Volver al menú principal\n";
+        cout << "Ingrese Opción: ";
+
+        getline(cin, option);
+
+        if (option == "V" || option == "v") {
+            inSubmenu = false;
+        }
+        else if (option == "F" || option == "f") {
+            // Repetir búsqueda con otro texto
+            inSubmenu = false;
+            searchSongs(); // Llamada recursiva para nueva búsqueda
+            return;
+        }
+        else if (!option.empty() && (option[0] == 'R' || option[0] == 'r')) {
+            int num = 0;
+            try {
+                num = std::stoi(option.substr(1));
+            } catch (...) {
+                cout << "Número inválido\n";
+                cout << "Presione Enter para continuar...";
+                cin.get();
+                continue;
+            }
+
+            if (num >= 1 && num <= (int)results.size()) {
+                Song selected = getSongById(results[num - 1]);
+                if (selected.isValid()) {
+                    playSelectedSong(selected);
+                    inSubmenu = false;
+                }
+            } else {
+                cout << "Número fuera de rango\n";
+                cout << "Presione Enter para continuar...";
+                cin.get();
+            }
+        }
+        else if (!option.empty() && (option[0] == 'A' || option[0] == 'a')) {
+            int num = 0;
+            try {
+                num = std::stoi(option.substr(1));
+            } catch (...) {
+                cout << "Número inválido\n";
+                cout << "Presione Enter para continuar...";
+                cin.get();
+                continue;
+            }
+
+            if (num >= 1 && num <= (int)results.size()) {
+                Song selected = getSongById(results[num - 1]);
+                if (selected.isValid()) {
+                    config.getPlaylist().push_back(selected);
+                    updateConfigFile();
+                    cout << "\nCanción agregada a la lista de reproducción!\n";
+                    cout << "Presione Enter para continuar...";
+                    cin.get();
+                }
+            } else {
+                cout << "Número fuera de rango\n";
+                cout << "Presione Enter para continuar...";
+                cin.get();
+            }
+        }
+        else {
+            cout << "Opción inválida\n";
+            cout << "Presione Enter para continuar...";
+            cin.get();
+        }
+    }
+}
+
 Player::~Player() {}

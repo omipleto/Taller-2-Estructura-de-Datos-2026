@@ -1,5 +1,6 @@
 #pragma once
 #include "../data_structure/LinkedList.h"
+#include "../data_structure/Trie.h"
 #include "../models/Song.h"
 #include "../models/Config.h"
 #include "FileManager.h"
@@ -13,6 +14,7 @@ private:
     LinkedList<Song> history;
     FileManager fileManager;
     Ranking ranking;
+    Trie songTrie;
 
     void updateConfigFile();
     void updateRankingFile();
@@ -31,6 +33,9 @@ private:
     void showTopSongs();
     void showTopArtists();
     bool showArtistSongs(const std::string& artist);
+
+    void rebuildTrie();
+    void searchSongs();
 
 public:
     Player();
